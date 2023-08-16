@@ -1,0 +1,25 @@
+buildscript {
+    dependencies {
+        classpath libs.kotlin.gradle.plugin
+    }
+}
+
+plugins {
+    alias(libs.plugins.com.diffplug.spotless) apply(false)
+    alias(libs.plugins.com.android.application) apply(false)
+}
+
+subprojects {
+    apply plugin: "com.diffplug.spotless"
+
+    spotless {
+        kotlin {
+            target "**/*.kt"
+            targetExclude("$buildDir/**/*.kt")
+            targetExclude("bin/**/*.kt")
+
+            ktlint(libs.versions.ktlint.get())
+            licenseHeaderFile rootProject.file("../spotless/copyright.kt")
+        }
+    }
+}
